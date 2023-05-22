@@ -10,6 +10,7 @@ import { Box, ContactShadows, Environment, Html, OrbitControls, useProgress } fr
 
 import { useSpring, a as web } from '@react-spring/web'
 import { isMobile } from 'react-device-detect'
+import { Phone } from './Phone'
 
 function Loader() {
   const { active, progress, errors, item, loaded, total } = useProgress()
@@ -44,12 +45,13 @@ export default function Scene({ ...props }) {
       <Canvas
         dpr={[1, 2]}
         camera={{ position: [0, 0, -30], fov: 35 }}
+        className='canvasR3F'
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          width: '100vw',
-          height: '100vh',
+          width: '100%',
+          height: '100%',
         }}
       >
         <three.pointLight
@@ -66,7 +68,11 @@ export default function Scene({ ...props }) {
               setOpen(!open)
             }}
           >
-            <Macbook open={open} hinge={spring.open.to([0, 1], [1.575, -0.425])} />
+            {mobile ? (
+              <Phone open={open} hinge={spring.open.to([0, 1], [1.575, 0])} scale={0.1} />
+            ) : (
+              <Macbook open={open} hinge={spring.open.to([0, 1], [1.575, -0.425])} />
+            )}
           </group>
           {/* <Environment preset='city' /> */}
         </Suspense>
