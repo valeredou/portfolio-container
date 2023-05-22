@@ -8,12 +8,16 @@ import { useSpring } from '@react-spring/core'
 import { a as three } from '@react-spring/three'
 import { a as web } from '@react-spring/web'
 
-export default function Macbook({ open, hinge, ...props }) {
+export default function Macbook({ open, setOpen, hinge, ...props }) {
   const group = useRef()
   // Load model
   const { nodes, materials } = useGLTF('/mac-draco.glb')
+
   // Take care of cursor state on hover
   const [hovered, setHovered] = useState(false)
+
+  //Able or disable movement
+  const [movement, setMovement] = useState(true)
 
   //Vectors for camera move
   const dummy = new THREE.Vector3()
@@ -23,14 +27,26 @@ export default function Macbook({ open, hinge, ...props }) {
   // Make it float in the air when it's opened
   useFrame((state) => {
     const t = state.clock.getElapsedTime()
-    group.current.rotation.x = THREE.MathUtils.lerp(
-      group.current.rotation.x,
-      open ? Math.cos(t / 10) / 10 + 0.25 : 0,
-      0.1,
-    )
-    group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, open ? Math.sin(t / 10) / 4 : 0, 0.1)
-    group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, open ? Math.sin(t / 10) / 10 : 0, 0.1)
-    group.current.position.y = THREE.MathUtils.lerp(group.current.position.y, open ? (-5 + Math.sin(t)) / 3 : -4.3, 0.1)
+
+    if (movement) {
+      group.current.rotation.x = THREE.MathUtils.lerp(
+        group.current.rotation.x,
+        open ? Math.cos(t / 10) / 10 + 0.25 : 0,
+        0.1,
+      )
+      group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, open ? Math.sin(t / 10) / 4 : 0, 0.1)
+      group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, open ? Math.sin(t / 10) / 10 : 0, 0.1)
+      group.current.position.y = THREE.MathUtils.lerp(
+        group.current.position.y,
+        open ? (-5 + Math.sin(t)) / 3 : -4.3,
+        0.1,
+      )
+    } else {
+      group.current.position.y = THREE.MathUtils.lerp(group.current.position.y, open ? -2 : -4.3, 0.1)
+      group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, 0, 0.1)
+      group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, 0, 0.1)
+      group.current.position.y = THREE.MathUtils.lerp(group.current.position.y, 0, 0.1)
+    }
 
     const step = 0.1
     state.camera.position.lerp(dummy.set(0, 0, open ? -15 : -30), step)
@@ -78,7 +94,33 @@ export default function Macbook({ open, hinge, ...props }) {
         <mesh material={materials.aluminium} geometry={nodes['Cube002'].geometry} />
         <mesh material={materials.trackpad} geometry={nodes['Cube002_1'].geometry} />
       </group>
-      <mesh material={materials.touchbar} geometry={nodes.touchbar.geometry} position={[0, -0.03, 1.2]} />
+      <mesh material={materials.touchbar} geometry={nodes.touchbar.geometry} position={[0, -0.03, 1.2]}>
+        <Html
+          transform
+          occlude='blending'
+          rotation={[-Math.PI / 2, 0, 0]}
+          position={[-2.35, 0.05, 0]}
+          className='touchbar'
+          distanceFactor={3}
+        >
+          <div
+            className='esc'
+            onPointerOver={(e) => setHovered(true)}
+            onPointerOut={(e) => setHovered(false)}
+            onClick={() => setOpen(!open)}
+          >
+            {'esc'}
+          </div>
+          <div
+            className='movement'
+            onPointerOver={(e) => setHovered(true)}
+            onPointerOut={(e) => setHovered(false)}
+            onClick={() => setMovement(!movement)}
+          >
+            {movement ? 'Disable movement' : 'Enable movement'}
+          </div>
+        </Html>
+      </mesh>
     </group>
   )
 }

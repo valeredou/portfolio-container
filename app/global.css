@@ -41,6 +41,10 @@
     white-space: nowrap;
   }
 
+  h1.mobile {
+    font-size: 4em;
+  }
+
   .htmlScreen,
   .htmlScreenMobile {
     width: 100%;

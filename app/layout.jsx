@@ -1,4 +1,5 @@
-import '@/global.css'
+// import '@/global.css'
+import '@/public/css/index.css'
 import Scene from '@/components/canvas/Scene'
 
 export const metadata = {

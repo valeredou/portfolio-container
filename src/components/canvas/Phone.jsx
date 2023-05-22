@@ -12,8 +12,9 @@ import { Html, Mask, useGLTF, useMask } from '@react-three/drei'
 import * as THREE from 'three'
 import { a as three } from '@react-spring/three'
 import { useFrame } from '@react-three/fiber'
+import { UilTimes } from '@iconscout/react-unicons'
 
-export function Phone({ children, open, onClick, hinge, positionY, ...props }) {
+export function Phone({ children, open, setOpen, onClick, hinge, positionY, ...props }) {
   const { nodes, materials } = useGLTF('/iphone.glb')
 
   const group = useRef()
@@ -60,6 +61,18 @@ export function Phone({ children, open, onClick, hinge, positionY, ...props }) {
       ref={group}
       {...props}
     >
+      {open && (
+        <Html occlude='blending'>
+          <div
+            className='close'
+            onClick={() => {
+              setOpen(false)
+            }}
+          >
+            <UilTimes />
+          </div>
+        </Html>
+      )}
       <three.group ref={screenGroup} position={[-1, 0, 0]} rotation-x={hinge}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <group rotation={[-Math.PI / 2, 0, 0]} scale={100}>
