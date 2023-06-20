@@ -37,8 +37,10 @@ export default function Scene({ ...props }) {
 
   const textOffset = mobile ? 100 : 250
 
+  const color = spring.open.to([0, 1], ['#f0f0f0', '#6155ff'])
+
   return (
-    <web.main style={{ background: spring.open.to([0, 1], ['#f0f0f0', '#c1dadf']) }}>
+    <web.main style={{ background: spring.open.to([0, 1], ['#f0f0f0', '#6155ff']) }}>
       <web.h1
         className={mobile ? 'mobile' : ''}
         style={{

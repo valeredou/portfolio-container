@@ -29,18 +29,14 @@ export default function Macbook({ open, setOpen, hinge, ...props }) {
     const t = state.clock.getElapsedTime()
 
     if (movement) {
-      group.current.rotation.x = THREE.MathUtils.lerp(
-        group.current.rotation.x,
-        open ? Math.cos(t / 10) / 10 + 0.25 : 0,
-        0.1,
-      )
-      group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, open ? Math.sin(t / 10) / 4 : 0, 0.1)
-      group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, open ? Math.sin(t / 10) / 10 : 0, 0.1)
-      group.current.position.y = THREE.MathUtils.lerp(
-        group.current.position.y,
-        open ? (-5 + Math.sin(t)) / 3 : -4.3,
-        0.1,
-      )
+      // group.current.rotation.x = THREE.MathUtils.lerp(
+      //   group.current.rotation.x,
+      //   open ? Math.cos(t / 10) / 10 + 0.25 : 0,
+      //   0.1,
+      // )
+      // group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, open ? Math.sin(t / 10) / 100 : 0, 0.1)
+      // group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, open ? Math.sin(t / 10) / 100 : 0, 0.1)
+      group.current.position.y = THREE.MathUtils.lerp(group.current.position.y, open ? -2.5 : -4.3, 0.1)
     } else {
       group.current.position.y = THREE.MathUtils.lerp(group.current.position.y, open ? -2 : -4.3, 0.1)
       group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, 0, 0.1)
@@ -49,7 +45,7 @@ export default function Macbook({ open, setOpen, hinge, ...props }) {
     }
 
     const step = 0.1
-    state.camera.position.lerp(dummy.set(0, 0, open ? -15 : -30), step)
+    state.camera.position.lerp(dummy.set(0, open ? 3 : 0, open ? -10 : -30), step)
 
     lookAtPos.x = 0
     lookAtPos.y = 0
@@ -77,13 +73,14 @@ export default function Macbook({ open, setOpen, hinge, ...props }) {
               className='htmlScreen'
               rotation-x={-Math.PI / 2}
               position={[0, 0.05, -0.09]}
-              distanceFactor={3.3}
+              // distanceFactor={3.3}
+              distanceFactor={2}
               transform
               occlude='blending'
               pointerEvents={open ? 'initial' : 'none'}
             >
               <div className='wrapper'>
-                <iframe src='https://www.hugofournier.com/' />
+                <iframe src='https://portfolio-grid-gamma.vercel.app/fr' />
               </div>
             </Html>
           </mesh>
