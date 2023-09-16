@@ -61,7 +61,7 @@ export function Phone({ children, open, setOpen, onClick, hinge, positionY, ...p
       ref={group}
       {...props}
     >
-      {open && (
+      {/* {open && (
         <Html occlude='blending'>
           <div
             className='close'
@@ -72,7 +72,7 @@ export function Phone({ children, open, setOpen, onClick, hinge, positionY, ...p
             <UilTimes />
           </div>
         </Html>
-      )}
+      )} */}
       <three.group ref={screenGroup} position={[-1, 0, 0]} rotation-x={hinge}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <group rotation={[-Math.PI / 2, 0, 0]} scale={100}>
@@ -125,6 +125,16 @@ export function Phone({ children, open, setOpen, onClick, hinge, positionY, ...p
                 transform
                 pointerEvents={open ? 'initial' : 'none'}
               >
+                {open && (
+                  <div
+                    className='close'
+                    onClick={() => {
+                      setOpen(false)
+                    }}
+                  >
+                    <UilTimes />
+                  </div>
+                )}
                 <iframe src='https://portfolio-grid-gamma.vercel.app/fr' />
               </Html>
             </mesh>

@@ -1,14 +1,14 @@
-@import url('https://rsms.me/inter/inter.css');
+@import url("https://rsms.me/inter/inter.css");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 :root {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 @supports (font-variation-settings: normal) {
   :root {
-    font-family: 'Inter var', sans-serif;
+    font-family: "Inter var", sans-serif;
   }
 }
 @layer base {
@@ -52,15 +52,15 @@
     background: #141417;
   }
   .htmlScreen iframe {
-    width: 1700px;
-    height: 1080px;
+    width: 1024px;
+    height: 670px;
     border: none;
     border-radius: 20px;
   }
   .htmlScreenMobile {
     background: #141417;
     border-radius: 47.3px;
-    overflow: hidden;
+    position: relative;
   }
   .htmlScreenMobile iframe {
     width: 390px;
@@ -73,8 +73,8 @@
     width: 50px;
     height: 50px;
     position: absolute;
-    top: -790px;
-    right: -180px;
+    top: -70px;
+    right: -20px;
   }
   .close svg {
     width: 100%;
@@ -96,4 +96,4 @@
     font-size: 20px;
     padding: 2px 15px;
   }
-} /*# sourceMappingURL=index.css.map */
+}/*# sourceMappingURL=index.css.map */
