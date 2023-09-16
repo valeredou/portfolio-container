@@ -43,7 +43,7 @@ export function Phone({ children, open, setOpen, onClick, hinge, positionY, ...p
     group.current.position.y = THREE.MathUtils.lerp(group.current.position.y, -5, 0.1)
 
     const step = 0.1
-    state.camera.position.lerp(dummy.set(0, 0, open ? -18 : -30), step)
+    state.camera.position.lerp(dummy.set(0, 0, open ? -16 : -30), step)
 
     lookAtPos.x = 0
     lookAtPos.y = 0
