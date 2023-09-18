@@ -34,10 +34,10 @@ export default function Scene({ ...props }) {
   // True if is mobile false if not, used because we need client rendered to see
   const [mobile, setMobile] = useState()
 
-  const [lng, setLng] = useState(navigator.language)
+  const [lng, setLng] = useState(window.navigator.language)
 
   useEffect(() => {
-    let tempLng = navigator.language.split('-')
+    let tempLng = window.navigator.language.split('-')
     if (tempLng[0] !== 'fr') {
       setLng('en')
     }
