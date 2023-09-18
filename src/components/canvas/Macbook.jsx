@@ -45,7 +45,7 @@ export default function Macbook({ open, setOpen, hinge, ...props }) {
     }
 
     const step = 0.1
-    state.camera.position.lerp(dummy.set(0, open ? 3 : 0, open ? -10 : -30), step)
+    state.camera.position.lerp(dummy.set(1, open ? 2 : 0, open ? -8.5 : -30), step)
 
     lookAtPos.x = 0
     lookAtPos.y = 0
