@@ -6,12 +6,15 @@ import { Canvas } from '@react-three/fiber'
 import { a as three } from '@react-spring/three'
 import { Suspense, useEffect, useState } from 'react'
 import Macbook from '@/components/canvas/Macbook'
-import { Box, ContactShadows, Environment, Html, OrbitControls, useProgress } from '@react-three/drei'
+import { Box, ContactShadows, Environment, Html, OrbitControls, PivotControls, useProgress } from '@react-three/drei'
 
 import { useSpring, a as web } from '@react-spring/web'
 import { isMobile } from 'react-device-detect'
 import { Phone } from './Phone'
 import { TypeAnimation } from 'react-type-animation'
+import Lottie from 'lottie-react'
+import fleche from '/public/fleche.json'
+import LanguageDetector from 'i18next-browser-languagedetector'
 
 function Loader() {
   const { active, progress, errors, item, loaded, total } = useProgress()
@@ -31,7 +34,13 @@ export default function Scene({ ...props }) {
   // True if is mobile false if not, used because we need client rendered to see
   const [mobile, setMobile] = useState()
 
+  const [lng, setLng] = useState(navigator.language)
+
   useEffect(() => {
+    let tempLng = navigator.language.split('-')
+    if (tempLng[0] !== 'fr') {
+      setLng('en')
+    }
     setMobile(isMobile)
   }, [])
 
@@ -39,8 +48,13 @@ export default function Scene({ ...props }) {
 
   const color = spring.open.to([0, 1], ['#f0f0f0', '#6155ff'])
 
+  const seq = {
+    en: ['Hi,\n', "Hi,\n i'm Valère", "Hi,\n i'm a web developer."],
+    fr: ['Bonjour,\n', "Bonjour,\n je m'appelle Valère", 'Bonjour,\n je suis un développeur web.'],
+  }
+  console.log('color', color)
   return (
-    <web.main style={{ background: spring.open.to([0, 1], ['#f0f0f0', '#6155ff']) }}>
+    <web.main style={{ background: spring.open.to([0, 1], ['#f0f0f0', '#0b1727']) }}>
       <web.h1
         className={mobile ? 'mobile' : ''}
         style={{
@@ -50,11 +64,11 @@ export default function Scene({ ...props }) {
       >
         <TypeAnimation
           sequence={[
-            'Hi,\n', // Types 'One'
+            seq[lng][0], // Types 'One'
             500, // Waits 2s
-            "Hi,\n i'm Valère", // Types 'Three' without deleting 'Two'
+            seq[lng][1], // Types 'Three' without deleting 'Two'
             1000, // Waits 2s
-            "Hi,\n i'm a web developer.", // Types 'Three' without deleting 'Two'
+            seq[lng][2], // Types 'Three' without deleting 'Two'
             () => {
               setTimeout(() => {
                 setShowClick(true)
@@ -71,22 +85,11 @@ export default function Scene({ ...props }) {
           cursor={true}
         />
       </web.h1>
-      <Canvas
-        dpr={[1, 2]}
-        camera={{ position: [0, 0, -30], fov: 35 }}
-        className='canvasR3F'
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-        }}
-      >
+      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, -30], fov: 35 }} className='canvasR3F'>
         <three.pointLight
           position={[10, 10, 10]}
-          intensity={1.5}
-          color={spring.open.to([0, 1], ['#f0f0f0', '#c1dadf'])}
+          intensity={2}
+          color={spring.open.to([0, 1], ['#f0f0f0', '#f0f0f0'])}
         />
         <Suspense fallback={<Loader />}>
           {showClick && (
@@ -97,6 +100,13 @@ export default function Scene({ ...props }) {
                 setOpen(!open)
               }}
             >
+              {open === false && (
+                <Html className='click-container' occlude='blending'>
+                  <span className='click'>{lng === 'fr' ? 'Cliquez ici' : 'Click here'}</span>
+                  <Lottie animationData={fleche} loop={true} className='lottie-animation' />
+                </Html>
+              )}
+
               {mobile ? (
                 <Phone open={open} setOpen={setOpen} hinge={spring.open.to([0, 1], [1.575, 0])} scale={0.1} />
               ) : (

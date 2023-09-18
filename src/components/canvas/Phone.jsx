@@ -135,7 +135,7 @@ export function Phone({ children, open, setOpen, onClick, hinge, positionY, ...p
                     <UilTimes />
                   </div>
                 )}
-                <iframe src='https://portfolio-grid-gamma.vercel.app/fr' />
+                <iframe src='https://portfolio.valeredouille.com' />
               </Html>
             </mesh>
             <mesh geometry={nodes.Apple_Logo_Logo_0.geometry} material={materials.Logo} />

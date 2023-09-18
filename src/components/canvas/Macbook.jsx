@@ -45,7 +45,7 @@ export default function Macbook({ open, setOpen, hinge, ...props }) {
     }
 
     const step = 0.1
-    state.camera.position.lerp(dummy.set(1, open ? 2 : 0, open ? -8.5 : -30), step)
+    state.camera.position.lerp(dummy.set(1, open ? 2 : 0, open ? -8.75 : -30), step)
 
     lookAtPos.x = 0
     lookAtPos.y = 0
@@ -80,7 +80,7 @@ export default function Macbook({ open, setOpen, hinge, ...props }) {
               pointerEvents={open ? 'initial' : 'none'}
             >
               <div className='wrapper'>
-                <iframe src='https://portfolio-grid-gamma.vercel.app/fr' />
+                <iframe src='https://portfolio.valeredouille.com' />
               </div>
             </Html>
           </mesh>
