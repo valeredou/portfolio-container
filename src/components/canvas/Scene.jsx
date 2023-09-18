@@ -14,7 +14,6 @@ import { Phone } from './Phone'
 import { TypeAnimation } from 'react-type-animation'
 import Lottie from 'lottie-react'
 import fleche from '/public/fleche.json'
-import LanguageDetector from 'i18next-browser-languagedetector'
 
 function Loader() {
   const { active, progress, errors, item, loaded, total } = useProgress()
@@ -34,27 +33,33 @@ export default function Scene({ ...props }) {
   // True if is mobile false if not, used because we need client rendered to see
   const [mobile, setMobile] = useState()
 
-  const [lng, setLng] = useState(window.navigator.language)
+  const [lng, setLng] = useState()
+
+  const [seq, setSeq] = useState([
+    'Bonjour,\n',
+    "Bonjour,\n je m'appelle Valère",
+    'Bonjour,\n je suis un développeur web.',
+  ])
 
   useEffect(() => {
-    let tempLng = window.navigator.language.split('-')
+    let tempLng = navigator.language.split('-')
     if (tempLng[0] !== 'fr') {
       setLng('en')
+      setSeq({ ...['Hi,\n', "Hi,\n i'm Valère", "Hi,\n i'm a web developer."] })
+    } else {
+      setLng('fr')
     }
     setMobile(isMobile)
-  }, [])
+  }, [lng])
 
   const textOffset = mobile ? 100 : 250
 
   const color = spring.open.to([0, 1], ['#f0f0f0', '#6155ff'])
 
-  const seq = {
-    en: ['Hi,\n', "Hi,\n i'm Valère", "Hi,\n i'm a web developer."],
-    fr: ['Bonjour,\n', "Bonjour,\n je m'appelle Valère", 'Bonjour,\n je suis un développeur web.'],
-  }
-  console.log('color', color)
+  console.log(seq)
+
   return (
-    <web.main style={{ background: spring.open.to([0, 1], ['#f0f0f0', '#0b1727']) }}>
+    <web.main style={{ background: spring.open.to([0, 1], ['#f0f0f0', isMobile ? '#f0f0f0' : '#0b1727']) }}>
       <web.h1
         className={mobile ? 'mobile' : ''}
         style={{
@@ -62,28 +67,30 @@ export default function Scene({ ...props }) {
           transform: spring.open.to((o) => `translate3d(-50%,${o * 50 - textOffset}px,0)`),
         }}
       >
-        <TypeAnimation
-          sequence={[
-            seq[lng][0], // Types 'One'
-            500, // Waits 2s
-            seq[lng][1], // Types 'Three' without deleting 'Two'
-            1000, // Waits 2s
-            seq[lng][2], // Types 'Three' without deleting 'Two'
-            () => {
-              setTimeout(() => {
-                setShowClick(true)
-              }, 1000)
-            },
-          ]}
-          style={{
-            width: '100%',
-            display: 'block',
-            textAlign: 'center',
-            whiteSpace: 'pre-line',
-          }}
-          className={'animated-text'}
-          cursor={true}
-        />
+        {lng && (
+          <TypeAnimation
+            sequence={[
+              seq[0], // Types 'One'
+              500, // Waits 2s
+              seq[1], // Types 'Three' without deleting 'Two'
+              1000, // Waits 2s
+              seq[2], // Types 'Three' without deleting 'Two'
+              () => {
+                setTimeout(() => {
+                  setShowClick(true)
+                }, 1000)
+              },
+            ]}
+            style={{
+              width: '100%',
+              display: 'block',
+              textAlign: 'center',
+              whiteSpace: 'pre-line',
+            }}
+            className={'animated-text'}
+            cursor={true}
+          />
+        )}
       </web.h1>
       <Canvas dpr={[1, 2]} camera={{ position: [0, 0, -30], fov: 35 }} className='canvasR3F'>
         <three.pointLight
