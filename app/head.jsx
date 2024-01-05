@@ -1,7 +1,7 @@
 const title = 'Valère Douillé | Portfolio'
-const url = 'https://valeredouille.com'
+const url = 'https://www.valeredouille.com'
 const description =
-  "Welcome to my portfolio. Here you can find informations about me and my work. Let's start a project together!"
+  'Explorez le portfolio innovant de Valère Douillé, développeur web passionné. Découvrez des projets web sur mesure, combinant créativité, efficacité et dernières technologies. Que ce soit pour des sites vitrines, des applications web ou des solutions e-commerce, vos idées deviendront réalités digitales'
 const author = 'Valère Douillé'
 
 export default function Head() {
